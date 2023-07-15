@@ -70,7 +70,7 @@ class DigitsDataModule(pl.LightningDataModule):
         return DataLoader(self.test_dataset, batch_size=self.batch_size)
 
 class MLP(pl.LightningModule):
-    def __init__(self, classes=10):
+    def __init__(self, classes=10, number_internal_neurons: int = 64):
         super().__init__()
         self.save_hyperparameters()
         self.classes = classes
@@ -81,10 +81,17 @@ class MLP(pl.LightningModule):
         self.test_acc = torchmetrics.Accuracy(task='multiclass', num_classes=self.hparams.classes)
 
         self.validation_step_outputs = []
-        self.l1 = torch.nn.Linear(28 * 28, self.hparams.classes)
+        self.layers = torch.nn.Sequential(
+            torch.nn.Flatten(),
+            torch.nn.Linear(28 * 28, self.hparams.number_internal_neurons),
+            torch.nn.ReLU(),
+            torch.nn.Linear(self.hparams.number_internal_neurons, 32),
+            torch.nn.ReLU(),
+            torch.nn.Linear(32, self.hparams.classes)
+        )
 
     def forward(self, x):
-        return torch.relu(self.l1(x))
+        return self.layers(x)
 
     def training_step(self, batch, batch_idx):
         x, y = batch
