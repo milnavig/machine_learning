@@ -40,11 +40,13 @@ trainer:
   sync_batchnorm: false
   reload_dataloaders_every_n_epochs: 0
   default_root_dir: logs/
-model:
-  input_size: 200
-  hidden_size: 600
-  classes: 5
 data:
   csv_file: ./dataset/output.csv
   batch_size: 64
 ckpt_path: null
+model:
+  class_path: BGRU_ATT.BGRU_ATT
+  init_args:
+    input_size: 200
+    hidden_size: 300
+    classes: 5
