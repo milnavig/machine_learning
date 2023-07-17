@@ -1,0 +1,5 @@
+batch_size: 64
+classes: 3
+csv_file: ./dataset/output.csv
+hidden_size: 300
+input_size: 100

@@ -25,7 +25,7 @@ for row in text_rows:
 #print(sentences)
 
 # Обучение модели Word2Vec
-model = Word2Vec(sentences, vector_size=100, min_count=1)  # Создаем и обучаем модель на предложениях
+model = Word2Vec(sentences, vector_size=200, min_count=1)  # Создаем и обучаем модель на предложениях
 
 # Получение вектора для каждого слова
 word_vectors = model.wv
@@ -46,7 +46,7 @@ most_similar = word_vectors.most_similar('billion')  # Получаем наиб
 sentence_vectors = []
 
 index = 0
-stop = 500
+stop = 5000
 for sentence in sentences:
     index = index + 1
     if index == stop:
